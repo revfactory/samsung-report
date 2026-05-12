@@ -1,0 +1,1934 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5" />
+<title>삼성전자(005930) 주식 가치 종합 분석 · 2026-05-12</title>
+<meta name="description" content="삼성전자(005930) 펀더멘털·기술적·산업·거시·심리 5영역 통합 분석 인터랙티브 보고서" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-0: #05070d;
+    --bg-1: #0a0e1a;
+    --bg-2: #131825;
+    --bd-1: #1f2638;
+    --bd-2: #2a3247;
+    --tx-1: #e8eaed;
+    --tx-2: #b6bcc8;
+    --tx-3: #7e8597;
+    --ac-blue: #1428a0;
+    --ac-cyan: #00d4ff;
+    --ac-emerald: #34d399;
+    --ac-red: #ff5252;
+    --ac-amber: #f59e0b;
+    --lbl-F: #a78bfa;
+    --lbl-T: #22d3ee;
+    --lbl-I: #f59e0b;
+    --lbl-M: #34d399;
+    --lbl-S: #f472b6;
+  }
+  html, body { background: var(--bg-0); color: var(--tx-1); font-family: 'Pretendard', -apple-system, 'Apple SD Gothic Neo', 'Noto Sans KR', system-ui, sans-serif; }
+  body { overflow-x: hidden; }
+  .ff-mono { font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace; }
+
+  /* ---------- Animated background ---------- */
+  #bgCanvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; }
+  .aurora-wrap { position: fixed; inset: -10vmax; z-index: -3; pointer-events: none; filter: blur(70px); opacity: 0.5; }
+  .aurora { position: absolute; border-radius: 50%; mix-blend-mode: screen; animation: drift 22s ease-in-out infinite alternate; }
+  .aurora.a { width: 55vmax; height: 55vmax; left: -15vmax; top: -10vmax; background: radial-gradient(circle, rgba(20,40,160,0.9), transparent 65%); }
+  .aurora.b { width: 50vmax; height: 50vmax; right: -10vmax; top: 30vmax; background: radial-gradient(circle, rgba(0,212,255,0.65), transparent 65%); animation-delay: -7s; animation-duration: 28s; }
+  .aurora.c { width: 60vmax; height: 60vmax; left: 10vmax; bottom: -25vmax; background: radial-gradient(circle, rgba(52,211,153,0.45), transparent 65%); animation-delay: -14s; animation-duration: 33s; }
+  .aurora.d { width: 35vmax; height: 35vmax; right: 20vmax; bottom: 10vmax; background: radial-gradient(circle, rgba(244,114,182,0.4), transparent 65%); animation-delay: -3s; animation-duration: 25s; }
+  @keyframes drift { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(8vmax,-6vmax,0) scale(1.15); } 100% { transform: translate3d(-6vmax,8vmax,0) scale(0.92); } }
+
+  /* grid overlay */
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px) 0 0/64px 64px,
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px) 0 0/64px 64px,
+      radial-gradient(ellipse at top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 70%);
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.95), rgba(0,0,0,0) 75%);
+  }
+
+  /* ---------- Panel / Glass card ---------- */
+  .glass {
+    background: linear-gradient(160deg, rgba(19,24,37,0.85), rgba(10,14,26,0.85));
+    border: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border-radius: 18px;
+  }
+  .glass-hover { transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+  .glass-hover:hover { transform: translateY(-2px); border-color: rgba(0,212,255,0.3); box-shadow: 0 16px 50px rgba(0,212,255,0.06); }
+
+  /* ---------- Labels ---------- */
+  .lbl { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 6px; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; vertical-align: 1px; cursor: pointer; transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease; }
+  .lbl:hover { transform: scale(1.12); filter: brightness(1.18); }
+  .lbl-F { background: rgba(167,139,250,0.16); color: var(--lbl-F); border: 1px solid rgba(167,139,250,0.35); }
+  .lbl-T { background: rgba(34,211,238,0.16); color: var(--lbl-T); border: 1px solid rgba(34,211,238,0.35); }
+  .lbl-I { background: rgba(245,158,11,0.16); color: var(--lbl-I); border: 1px solid rgba(245,158,11,0.35); }
+  .lbl-M { background: rgba(52,211,153,0.16); color: var(--lbl-M); border: 1px solid rgba(52,211,153,0.35); }
+  .lbl-S { background: rgba(244,114,182,0.16); color: var(--lbl-S); border: 1px solid rgba(244,114,182,0.35); }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.9s cubic-bezier(0.2,0.7,0.2,1), transform 0.9s cubic-bezier(0.2,0.7,0.2,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* ---------- Counter ---------- */
+  .counter { font-variant-numeric: tabular-nums; }
+
+  /* ---------- TOC ---------- */
+  .toc a { color: var(--tx-3); transition: color 0.2s ease, border-color 0.2s ease; }
+  .toc a.active, .toc a:hover { color: var(--ac-cyan); border-color: var(--ac-cyan); }
+
+  /* ---------- Scenario tabs ---------- */
+  .scn-tab { transition: all 0.25s ease; border: 1px solid rgba(255,255,255,0.08); }
+  .scn-tab.active { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(0,212,255,0.08); }
+  .scn-tab[data-scn="bull"].active { border-color: var(--ac-emerald); background: rgba(52,211,153,0.08); }
+  .scn-tab[data-scn="base"].active { border-color: var(--ac-cyan); background: rgba(0,212,255,0.08); }
+  .scn-tab[data-scn="bear"].active { border-color: var(--ac-red); background: rgba(255,82,82,0.08); }
+  .scn-panel { display: none; }
+  .scn-panel.active { display: block; animation: fade 0.45s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ---------- Pulse for current price ---------- */
+  .pulse-dot { position: relative; }
+  .pulse-dot::after {
+    content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--ac-cyan); opacity: 0.7; animation: pulse 1.8s ease-out infinite;
+  }
+  @keyframes pulse { 0% { transform: scale(0.6); opacity: 0.7; } 100% { transform: scale(2); opacity: 0; } }
+
+  /* ---------- Risk matrix ---------- */
+  .risk-dot { transition: transform 0.2s ease, filter 0.2s ease; cursor: pointer; }
+  .risk-dot:hover { transform: scale(1.25); filter: drop-shadow(0 0 8px currentColor); }
+
+  /* ---------- Disclosure ---------- */
+  details[open] summary .chev { transform: rotate(180deg); }
+  .chev { transition: transform 0.25s ease; }
+
+  /* ---------- Misc ---------- */
+  .scrollbar-thin::-webkit-scrollbar { height: 6px; width: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--bd-2); border-radius: 3px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+
+  .ticker-band { mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+  .ticker { animation: marquee 60s linear infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ---------- Sparkline placeholder ---------- */
+  .spark-box { background: linear-gradient(180deg, rgba(0,212,255,0.04), transparent); border-radius: 10px; }
+
+  /* ---------- KPI tile ---------- */
+  .kpi-shine { position: relative; overflow: hidden; }
+  .kpi-shine::after {
+    content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 30%, rgba(0,212,255,0.08) 50%, transparent 70%);
+    transform: translateX(-100%); transition: transform 0.7s ease;
+  }
+  .kpi-shine:hover::after { transform: translateX(100%); }
+
+  /* ---------- Print fallback ---------- */
+  @media (prefers-reduced-motion: reduce) { .aurora, .ticker, .pulse-dot::after { animation: none !important; } .reveal { opacity:1; transform:none; transition:none; } }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 1024px) {
+    .toc-sidebar { display: none; }
+  }
+</style>
+</head>
+<body class="antialiased text-slate-100 selection:bg-cyan-400/30 selection:text-white">
+
+<!-- ===== Animated background ===== -->
+<div class="aurora-wrap" aria-hidden="true">
+  <div class="aurora a"></div>
+  <div class="aurora b"></div>
+  <div class="aurora c"></div>
+  <div class="aurora d"></div>
+</div>
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+<!-- ===== Top nav ===== -->
+<header class="fixed top-0 left-0 right-0 z-40 px-4 py-3 backdrop-blur-md bg-[rgba(5,7,13,0.6)] border-b border-white/5">
+  <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-[#1428a0] to-[#00d4ff] grid place-items-center text-white font-black text-sm shadow-lg shadow-cyan-500/20">SE</div>
+      <div class="leading-tight">
+        <div class="text-[13px] font-semibold tracking-tight">삼성전자 <span class="text-slate-400 ff-mono text-[11px]">005930.KS</span></div>
+        <div class="text-[10px] text-slate-400 tracking-wider uppercase">Equity Research · 2026-05-12</div>
+      </div>
+    </div>
+    <nav class="hidden md:flex items-center gap-1 text-[12px] text-slate-400">
+      <a href="#hero" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">개요</a>
+      <a href="#scenarios" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">시나리오</a>
+      <a href="#fundamental" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">펀더멘털</a>
+      <a href="#technical" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">기술적</a>
+      <a href="#industry" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">산업</a>
+      <a href="#macro" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">거시</a>
+      <a href="#sentiment" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">심리</a>
+      <a href="#risk" class="px-3 py-1.5 rounded-md hover:text-cyan-300 hover:bg-white/5">리스크</a>
+    </nav>
+    <div class="hidden md:flex items-center gap-2 text-[11px] text-slate-400">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="ff-mono">live data · KRX close</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Live ticker band ===== -->
+<div class="fixed top-[60px] left-0 right-0 z-30 bg-[rgba(5,7,13,0.55)] backdrop-blur border-b border-white/5 overflow-hidden ticker-band">
+  <div class="flex whitespace-nowrap ticker py-2 text-[11px] ff-mono text-slate-300">
+    <!-- ticker items duplicated for seamless loop -->
+    <span class="px-6">현재가 <b class="text-white">₩275,500</b> <span class="text-red-400">-3.50%</span></span>
+    <span class="px-6">52주 신고 <b class="text-white">₩291,500</b></span>
+    <span class="px-6">52주 저점 <b class="text-white">₩53,700</b></span>
+    <span class="px-6">1Y <b class="text-emerald-400">+402.74%</b></span>
+    <span class="px-6">시가총액 <b class="text-white">₩1,495 ~ 1,778조</b></span>
+    <span class="px-6">USD/KRW <b class="text-white">₩1,486.10</b></span>
+    <span class="px-6">외인 지분율 <b class="text-white">49.21%</b></span>
+    <span class="px-6">컨센 12M <b class="text-white">₩315k ~ 323k</b></span>
+    <span class="px-6">1Q26 OP <b class="text-emerald-400">₩57.2조 (+755% YoY)</b></span>
+    <span class="px-6">자사주 소각 <b class="text-white">16조 원 (5~6월)</b></span>
+    <!-- duplicate -->
+    <span class="px-6">현재가 <b class="text-white">₩275,500</b> <span class="text-red-400">-3.50%</span></span>
+    <span class="px-6">52주 신고 <b class="text-white">₩291,500</b></span>
+    <span class="px-6">52주 저점 <b class="text-white">₩53,700</b></span>
+    <span class="px-6">1Y <b class="text-emerald-400">+402.74%</b></span>
+    <span class="px-6">시가총액 <b class="text-white">₩1,495 ~ 1,778조</b></span>
+    <span class="px-6">USD/KRW <b class="text-white">₩1,486.10</b></span>
+    <span class="px-6">외인 지분율 <b class="text-white">49.21%</b></span>
+    <span class="px-6">컨센 12M <b class="text-white">₩315k ~ 323k</b></span>
+    <span class="px-6">1Q26 OP <b class="text-emerald-400">₩57.2조 (+755% YoY)</b></span>
+    <span class="px-6">자사주 소각 <b class="text-white">16조 원 (5~6월)</b></span>
+  </div>
+</div>
+
+<!-- ===== Layout ===== -->
+<div class="pt-28 max-w-7xl mx-auto px-4 md:px-6 grid grid-cols-12 gap-6">
+
+  <!-- TOC sidebar -->
+  <aside class="toc-sidebar col-span-2 sticky top-32 self-start text-[12px] hidden lg:block">
+    <div class="text-[10px] text-slate-500 tracking-widest mb-3 uppercase">Table of Contents</div>
+    <nav class="toc flex flex-col gap-1 border-l border-white/10 pl-3">
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="hero" href="#hero">0. Executive Summary</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="scenarios" href="#scenarios">1. 시나리오 통합</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="fundamental" href="#fundamental">2. 펀더멘털</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="technical" href="#technical">3. 기술적</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="industry" href="#industry">4. 산업·경쟁</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="macro" href="#macro">5. 거시</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="sentiment" href="#sentiment">6. 시장 심리</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="cross" href="#cross">7. 교차 검증</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="risk" href="#risk">8. 리스크 매트릭스</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="radar" href="#radar">9. 5영역 종합</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="monitor" href="#monitor">10. 모니터링 타임라인</a>
+      <a class="border-l-2 border-transparent pl-2 py-1" data-anchor="disclaimer" href="#disclaimer">11. 면책</a>
+    </nav>
+
+    <div class="mt-8 glass p-4">
+      <div class="text-[10px] text-slate-500 tracking-widest uppercase">Label</div>
+      <div class="mt-2 flex flex-wrap gap-1.5">
+        <span class="lbl lbl-F" title="펀더멘털">F</span>
+        <span class="lbl lbl-T" title="기술적">T</span>
+        <span class="lbl lbl-I" title="산업">I</span>
+        <span class="lbl lbl-M" title="거시">M</span>
+        <span class="lbl lbl-S" title="심리">S</span>
+      </div>
+      <p class="mt-2 text-[10px] text-slate-500 leading-relaxed">각 결론은 5개 영역 분석가 산출물 중 어디서 도출됐는지 라벨로 표시한다.</p>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="col-span-12 lg:col-span-10 space-y-16 pb-32">
+
+    <!-- ===== 0. Executive Summary ===== -->
+    <section id="hero" class="reveal scroll-mt-32">
+      <div class="flex items-center gap-2 text-[11px] tracking-widest text-cyan-300/80 uppercase">
+        <span class="w-8 h-px bg-cyan-400/50"></span>
+        Executive Summary
+      </div>
+      <h1 class="mt-3 text-4xl md:text-5xl font-black tracking-tight leading-[1.1]">
+        삼성전자 <span class="text-slate-500 ff-mono text-2xl md:text-3xl align-middle">005930.KS</span><br />
+        <span class="bg-gradient-to-r from-cyan-300 via-cyan-100 to-violet-300 bg-clip-text text-transparent">주식 가치 종합 분석 보고서</span>
+      </h1>
+      <p class="mt-3 text-slate-400 text-sm">분석 기준일 <span class="ff-mono text-slate-200">2026-05-12</span> · 펀더멘털·기술적·산업·거시·심리 5영역 통합 · 통화 KRW · K-IFRS 연결</p>
+
+      <!-- KPI tiles -->
+      <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="glass glass-hover kpi-shine p-4">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">현재가</div>
+          <div class="mt-1 ff-mono text-2xl font-bold counter" data-target="275500">₩0</div>
+          <div class="text-[11px] text-red-400 mt-0.5">5/11 대비 -3.50%</div>
+          <span class="lbl lbl-T mt-2 inline-block">T</span>
+        </div>
+        <div class="glass glass-hover kpi-shine p-4">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">52주 수익률</div>
+          <div class="mt-1 ff-mono text-2xl font-bold text-emerald-400 counter" data-target="402.74" data-suffix="%">+0%</div>
+          <div class="text-[11px] text-slate-500 mt-0.5">₩53,700 → ₩291,500</div>
+          <span class="lbl lbl-T mt-2 inline-block">T</span>
+        </div>
+        <div class="glass glass-hover kpi-shine p-4">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">1Q26 영업이익</div>
+          <div class="mt-1 ff-mono text-2xl font-bold counter" data-target="57.2" data-suffix="조">₩0조</div>
+          <div class="text-[11px] text-emerald-400 mt-0.5">YoY +755% · 역대 최대</div>
+          <span class="lbl lbl-F mt-2 inline-block">F</span>
+        </div>
+        <div class="glass glass-hover kpi-shine p-4">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">외국인 지분율</div>
+          <div class="mt-1 ff-mono text-2xl font-bold counter" data-target="49.21" data-suffix="%">0%</div>
+          <div class="text-[11px] text-amber-400 mt-0.5">50% 하회 지속 (5/8)</div>
+          <span class="lbl lbl-M mt-2 inline-block">M</span>
+        </div>
+      </div>
+
+      <!-- Verdict callout -->
+      <div class="mt-8 glass p-6 md:p-8 border border-white/8 relative overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-cyan-500/10 blur-3xl pointer-events-none"></div>
+        <div class="relative">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">통합 의견</div>
+          <p class="mt-2 text-xl md:text-2xl font-bold leading-snug">
+            "단기 과열 + <span class="text-emerald-300">중기 상승 트렌드 유효</span> + 사이클 강도 역사적 정점급"의
+            <span class="text-cyan-300">비대칭 구도</span>
+          </p>
+          <p class="mt-3 text-sm text-slate-400 leading-relaxed">
+            현재가 ₩275,500은 본 보고서 Base 적정가 범위(₩220k~₩290k) 상단에 위치하므로
+            <b class="text-slate-200">"적정~약간 고평가"</b> 영역으로 평가하나, Bullish 시나리오 실현 시 +16~49% 업사이드가 잠재한다 <span class="lbl lbl-F">F</span>.
+            단기 과열·외인 차익실현 압력과 중기 펀더멘털·자사주 16조 소각·HBM 모멘텀이 병존하는 비대칭 환경이다 <span class="lbl lbl-S">S</span><span class="lbl lbl-I">I</span>.
+          </p>
+          <div class="mt-6 grid grid-cols-3 gap-3">
+            <div class="rounded-xl bg-emerald-400/5 border border-emerald-400/20 p-3">
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">Bullish</div>
+              <div class="ff-mono text-lg font-bold text-emerald-300 mt-1">₩320k~₩410k</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">가중치 25%</div>
+            </div>
+            <div class="rounded-xl bg-cyan-400/5 border border-cyan-400/30 p-3">
+              <div class="text-[10px] text-cyan-300 tracking-widest uppercase">Base · 55%</div>
+              <div class="ff-mono text-lg font-bold text-cyan-300 mt-1">₩220k~₩290k</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">가장 가능성 높음</div>
+            </div>
+            <div class="rounded-xl bg-red-400/5 border border-red-400/20 p-3">
+              <div class="text-[10px] text-red-300 tracking-widest uppercase">Bearish</div>
+              <div class="ff-mono text-lg font-bold text-red-300 mt-1">₩140k~₩200k</div>
+              <div class="text-[10px] text-slate-400 mt-0.5">가중치 20%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 1. 시나리오 통합 ===== -->
+    <section id="scenarios" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">01</span>
+        시나리오 통합
+        <span class="text-[11px] text-slate-500 font-normal">Bullish · Base · Bearish</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <!-- left: range chart -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[11px] text-slate-400 tracking-widest uppercase">적정가 범위 (펀더멘털 통합)</div>
+            <div class="text-[10px] text-slate-500">단위: ₩</div>
+          </div>
+          <div class="h-[280px]"><canvas id="rangeChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            현재가는 Base 상단 부근에 위치. 컨센서스 평균 약 ₩315k~₩323k는 본 보고서 Bullish 시나리오로 일부 기울어진 입장.
+          </p>
+        </div>
+
+        <!-- right: weight donut -->
+        <div class="col-span-12 lg:col-span-5 glass p-5 flex flex-col">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase">시나리오 가중치 (정성)</div>
+          <div class="flex-1 grid place-items-center"><div class="w-full max-w-[240px] aspect-square"><canvas id="weightChart"></canvas></div></div>
+          <p class="mt-1 text-[11px] text-slate-500 leading-relaxed">macro 분석가 분포 + 펀더멘털 강도 반영. 확률 단정이 아닌 작업가설.</p>
+        </div>
+
+        <!-- tabs -->
+        <div class="col-span-12 mt-2">
+          <div class="grid grid-cols-3 gap-2 mb-3">
+            <button class="scn-tab px-4 py-3 rounded-xl text-left" data-scn="bull">
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">Bullish · 25%</div>
+              <div class="font-bold ff-mono mt-0.5">₩320k ~ ₩410k</div>
+              <div class="text-[10px] text-slate-500">30만전자 돌파 + Goldilocks 매크로</div>
+            </button>
+            <button class="scn-tab px-4 py-3 rounded-xl text-left active" data-scn="base">
+              <div class="text-[10px] text-cyan-300 tracking-widest uppercase">Base · 55%</div>
+              <div class="font-bold ff-mono mt-0.5">₩220k ~ ₩290k</div>
+              <div class="text-[10px] text-slate-500">고원 박스권 + 점진적 펀더 가속</div>
+            </button>
+            <button class="scn-tab px-4 py-3 rounded-xl text-left" data-scn="bear">
+              <div class="text-[10px] text-red-300 tracking-widest uppercase">Bearish · 20%</div>
+              <div class="font-bold ff-mono mt-0.5">₩140k ~ ₩200k</div>
+              <div class="text-[10px] text-slate-500">중기 조정 + Hawkish 매크로</div>
+            </button>
+          </div>
+
+          <!-- Bull panel -->
+          <div class="scn-panel glass p-5" data-scn="bull">
+            <div class="grid md:grid-cols-3 gap-5">
+              <div>
+                <div class="text-[11px] text-emerald-300 tracking-widest uppercase mb-2">트리거 조건</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>₩291,500 종가 마감 기준 돌파 <span class="lbl lbl-T">T</span></li>
+                  <li>돌파일 거래량 60일 평균 1.5배 이상 <span class="lbl lbl-T">T</span></li>
+                  <li>외인 일별 순매수 재전환 <span class="lbl lbl-T">T</span><span class="lbl lbl-S">S</span></li>
+                  <li>HBM4 NVIDIA 비중 35%+ + 메가딜 추가 <span class="lbl lbl-I">I</span></li>
+                  <li>"2027 주문 캐파 초과" 시그널 + 2H26 ASP 추가 상승 <span class="lbl lbl-F">F</span></li>
+                  <li>FED 6월부터 연속 인하 (-75bp 이상) <span class="lbl lbl-M">M</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-emerald-300 tracking-widest uppercase mb-2">가정값</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>2026E EPS ₩22,000+, 타깃 PER 13~15배 <span class="lbl lbl-F">F</span></li>
+                  <li>메모리 OP 마진 50%+, 파운드리 흑자 (2조 목표) <span class="lbl lbl-I">I</span></li>
+                  <li>USD/KRW ₩1,350~₩1,380 (원화 강세 전환) <span class="lbl lbl-M">M</span></li>
+                  <li>외인 지분율 50% 회복 <span class="lbl lbl-S">S</span></li>
+                  <li>AI CapEx 추가 상향 ($750B+) <span class="lbl lbl-M">M</span></li>
+                  <li>컨센서스 추가 상향 (KB ₩400k+) <span class="lbl lbl-S">S</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-emerald-300 tracking-widest uppercase mb-2">결과 / 무효화</div>
+                <div class="space-y-2 text-sm">
+                  <div class="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-3">
+                    <div class="text-[10px] text-emerald-300 uppercase tracking-widest">적정가 범위</div>
+                    <div class="ff-mono font-bold text-emerald-300 mt-1">₩320,000 ~ ₩410,000</div>
+                  </div>
+                  <div class="rounded-lg bg-white/5 border border-white/10 p-3">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-widest">기술적 타깃</div>
+                    <div class="ff-mono text-sm mt-1">1차 ₩300,000 (심리선)<br/>2차 ₩315k~₩325k (피보 확장)</div>
+                  </div>
+                  <div class="rounded-lg bg-red-500/5 border border-red-500/20 p-3">
+                    <div class="text-[10px] text-red-300 uppercase tracking-widest">무효화 조건</div>
+                    <div class="ff-mono text-sm mt-1">₩280,000 하회 종가 마감</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Base panel -->
+          <div class="scn-panel glass p-5 active" data-scn="base">
+            <div class="grid md:grid-cols-3 gap-5">
+              <div>
+                <div class="text-[11px] text-cyan-300 tracking-widest uppercase mb-2">트리거 / 가정값</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>사이클 2027 상반기까지 지속 <span class="lbl lbl-F">F</span></li>
+                  <li>메모리 ASP 2H26 횡보, HBM4 NVIDIA 30% 유지 <span class="lbl lbl-I">I</span></li>
+                  <li>IR 2Q26 비트그로스 가이던스 가시화 <span class="lbl lbl-I">I</span></li>
+                  <li>파운드리 BEP 근처, MX 마진 한 자릿수 <span class="lbl lbl-I">I</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-cyan-300 tracking-widest uppercase mb-2">매크로 가정</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>USD/KRW 연평균 ₩1,430/$ <span class="lbl lbl-M">M</span></li>
+                  <li>FED 2026 하반기 25~50bp 인하, BOK 11월 25bp <span class="lbl lbl-M">M</span></li>
+                  <li>빅테크 CapEx $700B 가이던스 80%+ 집행 <span class="lbl lbl-M">M</span></li>
+                  <li>글로벌 PMI 50대 중반 유지 <span class="lbl lbl-M">M</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-cyan-300 tracking-widest uppercase mb-2">결과 / 확인 신호</div>
+                <div class="space-y-2 text-sm">
+                  <div class="rounded-lg bg-cyan-500/5 border border-cyan-500/30 p-3">
+                    <div class="text-[10px] text-cyan-300 uppercase tracking-widest">적정가 범위</div>
+                    <div class="ff-mono font-bold text-cyan-300 mt-1">₩220,000 ~ ₩290,000</div>
+                  </div>
+                  <div class="rounded-lg bg-white/5 border border-white/10 p-3">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-widest">기술적 박스권</div>
+                    <div class="ff-mono text-sm mt-1">₩270,000 ~ ₩295,000<br/>4~8주 횡보 (ATR 6,800)</div>
+                  </div>
+                  <div class="rounded-lg bg-white/5 border border-white/10 p-3">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-widest">확인 신호</div>
+                    <div class="text-xs mt-1 text-slate-300">MA5/MA10 ₩278~₩282k 평탄화 + 거래량 평균 ±20% 수렴</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bear panel -->
+          <div class="scn-panel glass p-5" data-scn="bear">
+            <div class="grid md:grid-cols-3 gap-5">
+              <div>
+                <div class="text-[11px] text-red-300 tracking-widest uppercase mb-2">트리거 조건</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>₩268,500 하회 종가 마감 <span class="lbl lbl-T">T</span></li>
+                  <li>MACD가 Signal선 하향 이탈 + 히스토그램 부호 전환 <span class="lbl lbl-T">T</span></li>
+                  <li>ADX 30 이하로 감소 <span class="lbl lbl-T">T</span></li>
+                  <li>CXMT DDR5 본격 진입 + NAND 재고 재누적 <span class="lbl lbl-I">I</span></li>
+                  <li>HBM4 NVIDIA 비중 25% 후퇴 + HBM4E 인증 지연 <span class="lbl lbl-I">I</span></li>
+                  <li>미국 CPI 재반등(+3.5%+), FED 6월 hawkish <span class="lbl lbl-M">M</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-red-300 tracking-widest uppercase mb-2">가정값</div>
+                <ul class="space-y-1.5 text-sm text-slate-300 list-disc pl-4">
+                  <li>2026E EPS ₩17,000, 타깃 PER 8배 <span class="lbl lbl-F">F</span></li>
+                  <li>메모리 OP 마진 30% <span class="lbl lbl-I">I</span></li>
+                  <li>USD/KRW ₩1,520~₩1,550 (원화 추가 약세) <span class="lbl lbl-M">M</span></li>
+                  <li>외인 -10조 추가 순매도, 지분율 48% 하회 <span class="lbl lbl-M">M</span><span class="lbl lbl-S">S</span></li>
+                  <li>컨센 하향 도배 (Buy 97%→80%, Sell 출현) <span class="lbl lbl-S">S</span></li>
+                </ul>
+              </div>
+              <div>
+                <div class="text-[11px] text-red-300 tracking-widest uppercase mb-2">결과 / 무효화</div>
+                <div class="space-y-2 text-sm">
+                  <div class="rounded-lg bg-red-500/5 border border-red-500/30 p-3">
+                    <div class="text-[10px] text-red-300 uppercase tracking-widest">적정가 범위</div>
+                    <div class="ff-mono font-bold text-red-300 mt-1">₩140,000 ~ ₩200,000</div>
+                  </div>
+                  <div class="rounded-lg bg-white/5 border border-white/10 p-3">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-widest">기술적 지지</div>
+                    <div class="ff-mono text-sm mt-1">1차 ₩256,610 (MA50)<br/>2차 ₩238k~₩244k (MA100)<br/>Tail ₩219,229 (MA200)</div>
+                  </div>
+                  <div class="rounded-lg bg-emerald-500/5 border border-emerald-500/20 p-3">
+                    <div class="text-[10px] text-emerald-300 uppercase tracking-widest">무효화 조건</div>
+                    <div class="ff-mono text-sm mt-1">₩291,500 이상 종가 마감 → Bullish 전환</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 2. 펀더멘털 ===== -->
+    <section id="fundamental" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">02</span>
+        펀더멘털 <span class="lbl lbl-F">F</span>
+        <span class="text-[11px] text-slate-500 font-normal">분기 실적 · 사업부 · 적정가 산출</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <!-- Quarterly trend -->
+        <div class="col-span-12 lg:col-span-8 glass p-5">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-[11px] text-slate-400 tracking-widest uppercase">분기 실적 트렌드</div>
+            <div class="text-[10px] text-slate-500">단위: 조 원</div>
+          </div>
+          <div class="h-[320px]"><canvas id="quarterlyChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            2026 1Q OP 마진 42.7%, DS 단독 OP 53.7조 — 메모리 사이클 강도가 SK하이닉스(72%)·TSMC(58%)와 비교 가능한 역사적 정점급.
+          </p>
+        </div>
+
+        <!-- Segment donut -->
+        <div class="col-span-12 lg:col-span-4 glass p-5 flex flex-col">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">1Q26 사업부 매출</div>
+          <div class="flex-1 grid place-items-center"><div class="w-full max-w-[240px] aspect-square"><canvas id="segmentChart"></canvas></div></div>
+          <div class="mt-2 grid grid-cols-2 gap-1 text-[10px] text-slate-400">
+            <div>DS 81.7조 (반도체)</div>
+            <div>DX 44.0조 (MX·VD·CE)</div>
+            <div>SDC 6.7조 (디스플레이)</div>
+            <div>Harman 3.8조</div>
+          </div>
+        </div>
+
+        <!-- Valuation triangulation -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">적정주가 산출 (3법 통합)</div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm scrollbar-thin">
+              <thead class="text-[11px] text-slate-400 border-b border-white/10">
+                <tr>
+                  <th class="text-left py-2 px-2">방법</th>
+                  <th class="text-left py-2 px-2">가정 요약</th>
+                  <th class="text-right py-2 px-2">Bearish</th>
+                  <th class="text-right py-2 px-2">Base</th>
+                  <th class="text-right py-2 px-2">Bullish</th>
+                </tr>
+              </thead>
+              <tbody class="ff-mono text-[13px]">
+                <tr class="border-b border-white/5"><td class="py-2 px-2">멀티플 (Fwd PER)</td><td class="text-xs text-slate-400 px-2">EPS 17~22천 × PER 8~14</td><td class="text-right text-red-300 px-2">136,000</td><td class="text-right text-cyan-300 px-2">234,000</td><td class="text-right text-emerald-300 px-2">308,000</td></tr>
+                <tr class="border-b border-white/5"><td class="py-2 px-2">SOTP</td><td class="text-xs text-slate-400 px-2">사업부별 멀티플 · 15% 디스카운트</td><td class="text-right text-red-300 px-2">197,000</td><td class="text-right text-cyan-300 px-2">240,000</td><td class="text-right text-emerald-300 px-2">283,000</td></tr>
+                <tr class="border-b border-white/5"><td class="py-2 px-2">간이 DCF</td><td class="text-xs text-slate-400 px-2">WACC 9% · g 2% · ±20%</td><td class="text-right text-red-300 px-2">114,000</td><td class="text-right text-cyan-300 px-2">175,000</td><td class="text-right text-emerald-300 px-2">250,000</td></tr>
+                <tr class="bg-white/[0.03]"><td class="py-2 px-2 font-bold">통합 시나리오</td><td class="text-xs text-slate-400 px-2">3법 교집합 + 시나리오 보정</td><td class="text-right font-bold text-red-300 px-2">140k~200k</td><td class="text-right font-bold text-cyan-300 px-2">220k~290k</td><td class="text-right font-bold text-emerald-300 px-2">320k~410k</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- PER comparison -->
+        <div class="col-span-12 lg:col-span-5 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">동종업계 PER 비교 (2026E)</div>
+          <div class="h-[260px]"><canvas id="perChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            삼성전자 PER ≈ SK하이닉스 < 마이크론 << TSMC. SOTP에서 이 격차 해소가 핵심 변수.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. 기술적 ===== -->
+    <section id="technical" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">03</span>
+        기술적 분석 <span class="lbl lbl-T">T</span>
+        <span class="text-[11px] text-slate-500 font-normal">추세 · 모멘텀 · 지지/저항</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <!-- Support/Resistance map -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">지지·저항 가격 지도</div>
+          <div id="srMap" class="relative h-[420px] rounded-xl bg-gradient-to-b from-emerald-500/[0.04] via-transparent to-red-500/[0.04] border border-white/5 overflow-hidden">
+            <!-- price levels are drawn by JS -->
+          </div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">현재가 ₩275,500이 MA20과 R1 사이에 위치. ₩291,500 (52주 신고가) 종가 돌파 / ₩268,500 종가 하회가 핵심 분기점.</p>
+        </div>
+
+        <!-- Momentum gauges -->
+        <div class="col-span-12 lg:col-span-5 grid grid-cols-2 gap-4">
+          <div class="glass glass-hover p-4">
+            <div class="text-[10px] text-slate-400 tracking-widest uppercase">RSI(14)</div>
+            <div class="mt-2 h-[110px]"><canvas data-gauge="rsi" data-value="55.81" data-max="100" data-warn="70" data-cold="30"></canvas></div>
+            <div class="ff-mono text-xl font-bold mt-1">55.81</div>
+            <div class="text-[10px] text-slate-500">중립~약강세</div>
+          </div>
+          <div class="glass glass-hover p-4">
+            <div class="text-[10px] text-slate-400 tracking-widest uppercase">Stochastic (9,6)</div>
+            <div class="mt-2 h-[110px]"><canvas data-gauge="stoch" data-value="95.99" data-max="100" data-warn="80" data-cold="20"></canvas></div>
+            <div class="ff-mono text-xl font-bold mt-1 text-red-300">95.99</div>
+            <div class="text-[10px] text-red-400">단기 과열</div>
+          </div>
+          <div class="glass glass-hover p-4">
+            <div class="text-[10px] text-slate-400 tracking-widest uppercase">ADX(14)</div>
+            <div class="mt-2 h-[110px]"><canvas data-gauge="adx" data-value="35.58" data-max="60" data-warn="25" data-cold="0"></canvas></div>
+            <div class="ff-mono text-xl font-bold mt-1 text-emerald-300">35.58</div>
+            <div class="text-[10px] text-emerald-400">강추세</div>
+          </div>
+          <div class="glass glass-hover p-4">
+            <div class="text-[10px] text-slate-400 tracking-widest uppercase">MACD 히스토</div>
+            <div class="mt-2 h-[110px]"><canvas data-gauge="macd" data-value="80" data-max="100" data-warn="50" data-cold="-100"></canvas></div>
+            <div class="ff-mono text-xl font-bold mt-1 text-emerald-300">+7,196</div>
+            <div class="text-[10px] text-emerald-400">0선 위, 매수 영역</div>
+          </div>
+        </div>
+
+        <!-- Trend & MA arrangement -->
+        <div class="col-span-12 glass p-5">
+          <div class="grid md:grid-cols-3 gap-5">
+            <div>
+              <div class="text-[11px] text-slate-400 tracking-widest uppercase">1년 수익률</div>
+              <div class="mt-2 ff-mono text-3xl font-bold text-emerald-300">+402.74%</div>
+              <div class="text-[11px] text-slate-500">52주 ₩53,700 → ₩291,500</div>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 tracking-widest uppercase">이동평균선</div>
+              <div class="mt-2 text-sm text-emerald-300 font-semibold">MA20 &gt; MA50 &gt; MA100 &gt; MA200</div>
+              <div class="ff-mono text-[12px] text-slate-300 mt-1">중장기 정배열 유지</div>
+              <div class="ff-mono text-[12px] text-red-300 mt-1">단기 MA5(279k) 하향 이탈</div>
+            </div>
+            <div>
+              <div class="text-[11px] text-slate-400 tracking-widest uppercase">변동성</div>
+              <div class="mt-2 ff-mono text-2xl font-bold">ATR(14) <span class="text-cyan-300">6,839</span></div>
+              <div class="text-[11px] text-slate-500">일중 평균진폭 약 ₩6,800</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 4. 산업·경쟁 ===== -->
+    <section id="industry" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">04</span>
+        산업·경쟁구도 <span class="lbl lbl-I">I</span>
+        <span class="text-[11px] text-slate-500 font-normal">메모리 · HBM · 파운드리 · MX · SDC</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <!-- HBM share -->
+        <div class="col-span-12 lg:col-span-5 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">HBM 시장 점유율 (2026E)</div>
+          <div class="h-[280px]"><canvas id="hbmChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            NVIDIA Rubin 향 HBM4는 SK ~70% vs 삼성 ~30%(협상). Google TPU HBM3E는 삼성 60%+ 1위 — 고객 분산이 차별화 포인트.
+          </p>
+        </div>
+
+        <!-- Memory cycle position -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">메모리 사이클 위치</div>
+          <div class="relative h-[180px] rounded-xl bg-gradient-to-r from-red-500/10 via-amber-500/15 to-emerald-500/15 border border-white/5 overflow-hidden">
+            <svg viewBox="0 0 800 180" class="absolute inset-0 w-full h-full" preserveAspectRatio="none">
+              <path d="M0,140 Q150,150 250,110 T450,40 T650,30 T800,90" fill="none" stroke="url(#cycleGrad)" stroke-width="2.5" />
+              <defs>
+                <linearGradient id="cycleGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="#ff5252"/>
+                  <stop offset="0.45" stop-color="#f59e0b"/>
+                  <stop offset="0.8" stop-color="#34d399"/>
+                  <stop offset="1" stop-color="#34d399"/>
+                </linearGradient>
+              </defs>
+              <circle cx="600" cy="36" r="9" fill="#22d3ee" stroke="#0a0e1a" stroke-width="3" class="pulse-dot" />
+              <text x="600" y="22" fill="#22d3ee" font-size="12" font-family="ui-monospace" text-anchor="middle" font-weight="700">현재 위치</text>
+            </svg>
+            <div class="absolute bottom-2 left-0 right-0 grid grid-cols-4 text-[10px] text-slate-400 tracking-widest uppercase">
+              <div class="text-center">Bottom</div>
+              <div class="text-center">Recovery</div>
+              <div class="text-center">Upturn</div>
+              <div class="text-center text-emerald-300">Peak ◀</div>
+            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-3 gap-2 text-[11px]">
+            <div class="rounded-lg bg-white/5 p-2">
+              <div class="text-slate-400">1Q26 DRAM 컨트랙트가</div>
+              <div class="ff-mono text-emerald-300 font-bold">+55~60% QoQ</div>
+            </div>
+            <div class="rounded-lg bg-white/5 p-2">
+              <div class="text-slate-400">1Q26 NAND</div>
+              <div class="ff-mono text-emerald-300 font-bold">+33~38% QoQ</div>
+            </div>
+            <div class="rounded-lg bg-white/5 p-2">
+              <div class="text-slate-400">HBM3E ASP 2026 YoY</div>
+              <div class="ff-mono text-emerald-300 font-bold">+20%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Segment heatmap -->
+        <div class="col-span-12 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">부문별 산업 환경 점수 (12개월)</div>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div class="rounded-xl border border-emerald-500/40 bg-emerald-500/8 p-3">
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">DS-메모리(범용)</div>
+              <div class="font-bold text-emerald-300 mt-1">호재 (强)</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">DRAM/NAND 두 자릿수 상승, 공급 타이트 1Y+</div>
+            </div>
+            <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/6 p-3">
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">DS-메모리(HBM)</div>
+              <div class="font-bold text-emerald-300 mt-1">호재 (中)</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">+20% ASP · Capa +50% · 멀티 고객</div>
+            </div>
+            <div class="rounded-xl border border-slate-400/30 bg-slate-400/5 p-3">
+              <div class="text-[10px] text-slate-300 tracking-widest uppercase">DS-파운드리</div>
+              <div class="font-bold text-slate-300 mt-1">중립</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">TSMC 71% vs 삼성 6.8% · SF2P 수율 70%</div>
+            </div>
+            <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/6 p-3">
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">SDC (디스플레이)</div>
+              <div class="font-bold text-emerald-300 mt-1">호재 (中)</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">Apple 폴더블 iPhone OLED 3년 독점</div>
+            </div>
+            <div class="rounded-xl border border-red-500/30 bg-red-500/6 p-3">
+              <div class="text-[10px] text-red-300 tracking-widest uppercase">MX (모바일)</div>
+              <div class="font-bold text-red-300 mt-1">악재 (中)</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">Apple 1위 탈환, 메모리 BoM 인플레</div>
+            </div>
+            <div class="rounded-xl border border-slate-400/30 bg-slate-400/5 p-3">
+              <div class="text-[10px] text-slate-300 tracking-widest uppercase">VD/CE/Harman</div>
+              <div class="font-bold text-slate-300 mt-1">중립</div>
+              <div class="text-[10px] text-slate-400 mt-2 leading-snug">자료 한정 — 정성 평가</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key milestones -->
+        <div class="col-span-12 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">삼성 HBM 핵심 이정표</div>
+          <div class="relative pl-4 border-l border-white/10 space-y-3">
+            <div>
+              <div class="ff-mono text-[11px] text-slate-400">2025-09</div>
+              <div class="text-sm">HBM3E 12-Hi <b class="text-cyan-300">NVIDIA 인증 통과</b></div>
+            </div>
+            <div>
+              <div class="ff-mono text-[11px] text-slate-400">2025-11</div>
+              <div class="text-sm">HBM4 paid sample NVIDIA 납품</div>
+            </div>
+            <div>
+              <div class="ff-mono text-[11px] text-slate-400">2025-12</div>
+              <div class="text-sm">Google TPU HBM3E <b class="text-emerald-300">60%+ 공급 1위</b></div>
+            </div>
+            <div>
+              <div class="ff-mono text-[11px] text-emerald-400">2026-02 ◀</div>
+              <div class="text-sm">평택 HBM4 <b class="text-emerald-300">양산 개시</b></div>
+            </div>
+            <div>
+              <div class="ff-mono text-[11px] text-slate-400">2026 연중</div>
+              <div class="text-sm">HBM Capa <b class="text-cyan-300">+50% 증설</b>, NVIDIA HBM4 30%+ 협상 마무리</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 5. 거시 ===== -->
+    <section id="macro" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">05</span>
+        거시 환경 <span class="lbl lbl-M">M</span>
+        <span class="text-[11px] text-slate-500 font-normal">환율 · 금리 · CapEx · 외인</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <div class="col-span-12 md:col-span-3 glass glass-hover p-5">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">USD/KRW</div>
+          <div class="mt-1 ff-mono text-3xl font-bold">₩1,486<span class="text-base text-slate-400">.10</span></div>
+          <div class="text-[11px] text-red-300 mt-1">12M 원화 -4.88%</div>
+          <div class="mt-3 text-[10px] text-slate-500 leading-relaxed">분기 OP에 환차익 약 ₩1.8조 (회사 IR 1Q26)</div>
+        </div>
+        <div class="col-span-12 md:col-span-3 glass glass-hover p-5">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">한·미 금리차</div>
+          <div class="mt-1 ff-mono text-3xl font-bold text-red-300">-100~125bp</div>
+          <div class="text-[11px] text-amber-300 mt-1">42개월 역전 지속</div>
+          <div class="mt-3 text-[10px] text-slate-500 leading-relaxed">BOK 2.50% · FED 3.50~3.75%</div>
+        </div>
+        <div class="col-span-12 md:col-span-3 glass glass-hover p-5">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">빅테크 CapEx 2026E</div>
+          <div class="mt-1 ff-mono text-3xl font-bold">$705~725<span class="text-base text-slate-400">B</span></div>
+          <div class="text-[11px] text-emerald-300 mt-1">YoY +77% · AI 75%</div>
+          <div class="mt-3 text-[10px] text-slate-500 leading-relaxed">AMZN $200B · MSFT $190B · GOOGL $190B · META $125-145B</div>
+        </div>
+        <div class="col-span-12 md:col-span-3 glass glass-hover p-5">
+          <div class="text-[10px] text-slate-400 tracking-widest uppercase">한국 4월 반도체 수출</div>
+          <div class="mt-1 ff-mono text-3xl font-bold text-emerald-300">+173%<span class="text-base text-slate-400">YoY</span></div>
+          <div class="text-[11px] text-emerald-300 mt-1">메모리 +262% · DRAM +340%</div>
+          <div class="mt-3 text-[10px] text-slate-500 leading-relaxed">산업통상자원부 4월 수출 동향</div>
+        </div>
+
+        <!-- CapEx breakdown -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">빅테크 4사 CapEx (2026E)</div>
+          <div class="h-[280px]"><canvas id="capexChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            MSFT CFO 명시 발언: "$25B은 메모리/부품 단가 상승 반영" — 빅테크 → 메모리 수요 채널 정량 확인.
+          </p>
+        </div>
+
+        <!-- Foreign ownership timeline -->
+        <div class="col-span-12 lg:col-span-5 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">외인 지분율 추이</div>
+          <div class="h-[280px]"><canvas id="foreignChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            5/7~5/8 2거래일 합산 -5.60조 차익실현 (4월 누적 +5.62조 순매수의 반전).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 6. 시장 심리 ===== -->
+    <section id="sentiment" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">06</span>
+        시장 심리·수급·컨센서스 <span class="lbl lbl-S">S</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <!-- Target price distribution -->
+        <div class="col-span-12 lg:col-span-7 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">증권사별 12M 목표주가</div>
+          <div class="h-[320px]"><canvas id="targetChart"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">
+            평균 ₩315k~₩323k (다출처 4개 수렴), 범위 ₩205,000 ~ ₩500,000. 현재가 대비 평균 +14.7% 상승여력.
+          </p>
+        </div>
+
+        <!-- Buy/Hold/Sell -->
+        <div class="col-span-12 lg:col-span-5 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">투자의견 분포</div>
+          <div class="h-[160px]"><canvas id="opinionChart"></canvas></div>
+          <div class="mt-3 grid grid-cols-3 gap-2 text-center">
+            <div class="rounded-lg bg-emerald-500/10 border border-emerald-500/30 py-2">
+              <div class="ff-mono text-2xl font-bold text-emerald-300">36</div>
+              <div class="text-[10px] text-emerald-300 tracking-widest uppercase">Buy</div>
+            </div>
+            <div class="rounded-lg bg-amber-500/10 border border-amber-500/30 py-2">
+              <div class="ff-mono text-2xl font-bold text-amber-300">1</div>
+              <div class="text-[10px] text-amber-300 tracking-widest uppercase">Hold</div>
+            </div>
+            <div class="rounded-lg bg-red-500/10 border border-red-500/30 py-2">
+              <div class="ff-mono text-2xl font-bold text-red-300">0</div>
+              <div class="text-[10px] text-red-300 tracking-widest uppercase">Sell</div>
+            </div>
+          </div>
+          <p class="mt-3 text-[11px] text-amber-300/80 leading-relaxed">
+            ⚠ Sell 0건의 컨센 쏠림은 부정 시나리오 발생 시 하향 폭이 가팔라질 수 있는 역방향 시그널.
+          </p>
+        </div>
+
+        <!-- Narrative reflection -->
+        <div class="col-span-12 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-3">산업 내러티브 시장 반영도</div>
+          <div class="grid md:grid-cols-4 gap-3">
+            <div class="rounded-xl bg-white/5 p-4">
+              <div class="text-[10px] text-slate-400 tracking-widest uppercase">메모리 슈퍼사이클</div>
+              <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-400 to-emerald-400" style="width:60%"></div>
+              </div>
+              <div class="ff-mono text-lg font-bold mt-1 text-emerald-300">+ 50~70%</div>
+              <div class="text-[10px] text-slate-500">1Q26 OP 컨센 ₩27.6조 → 실제 ₩57.2조, 상향 사이클 진행</div>
+            </div>
+            <div class="rounded-xl bg-white/5 p-4">
+              <div class="text-[10px] text-slate-400 tracking-widest uppercase">HBM 듀얼벤더</div>
+              <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400" style="width:78%"></div>
+              </div>
+              <div class="ff-mono text-lg font-bold mt-1 text-cyan-300">+ 70~85%</div>
+              <div class="text-[10px] text-slate-500">4/1~5/6 +59.09% 단기 급등으로 적극 반영</div>
+            </div>
+            <div class="rounded-xl bg-white/5 p-4">
+              <div class="text-[10px] text-slate-400 tracking-widest uppercase">MX 마진 압박</div>
+              <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-red-500 to-amber-500" style="width:15%"></div>
+              </div>
+              <div class="ff-mono text-lg font-bold mt-1 text-red-300">− 10~20%</div>
+              <div class="text-[10px] text-slate-500">메모리 호황에 가려져 거의 미반영 — 2H26 디레이팅 트리거 잠재</div>
+            </div>
+            <div class="rounded-xl bg-white/5 p-4">
+              <div class="text-[10px] text-slate-400 tracking-widest uppercase">2nm 파운드리</div>
+              <div class="mt-2 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-amber-400 to-cyan-400" style="width:47%"></div>
+              </div>
+              <div class="ff-mono text-lg font-bold mt-1 text-amber-300">±  40~55%</div>
+              <div class="text-[10px] text-slate-500">4Q26 흑전 가시화로 부정 디스카운트 해소, 적극 흑전 시나리오 미반영</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Buyback -->
+        <div class="col-span-12 glass p-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div class="text-[11px] text-slate-400 tracking-widest uppercase">자사주 정책</div>
+              <div class="mt-1 text-xl font-bold">2026 상반기 <span class="text-cyan-300 ff-mono">16조 원</span> 자사주 소각 의결 (5~6월 집행 가시권)</div>
+              <div class="text-[12px] text-slate-400 mt-1">보통주 7,335.9만 주 + 우선주 1,360.3만 주 (자사주의 82.5%) · 발행주식 약 1.4% 감축 → EPS 약 1.4% 상향 자동 효과</div>
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] text-slate-400 tracking-widest uppercase">EPS 상향 효과</div>
+              <div class="ff-mono text-3xl font-bold text-emerald-300">+1.4%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 7. 교차 검증 ===== -->
+    <section id="cross" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">07</span>
+        교차 검증 결과
+      </h2>
+      <p class="mt-2 text-sm text-slate-400">5개 영역 산출물 사이의 수치/시점 충돌 8건을 본문에 병기로 해소.</p>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">현재 주가 시점 차이</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">5/11 ₩285,500 [F] vs 5/12 ₩275,500 [T] vs Investing 5/11 ₩275,250 [S] → <b>5/12 종가 ₩275,500을 기준값 채택</b>, 5/11 가격 병기.</p>
+        </details>
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">컨센 목표주가 표본 차이</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">FnGuide ₩323k vs Investing ₩315,742 (36) vs TradingView ₩321,159 (42) vs KR 6M ₩312,800 → <b>약 ₩315k~₩323k 범위</b>로 통합 표기.</p>
+        </details>
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">외인 5월 누적 순매도 정의</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">5/7~5/8 단일 충격 <b>-5.60조</b> vs 5월 1~12일 누계 <b>-1.06조</b> (매수일·매도일 상쇄 후). 두 정의 분리 인용.</p>
+        </details>
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">빅테크 CapEx (macro 내부)</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">Exec Summary $650~700B vs 본문 §3.2 / industry §1.4 $705~725B → <b>상세 본문 $705~725B 채택</b>.</p>
+        </details>
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">사업부문별 OP (비공시 영역)</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">시스템LSI/파운드리/MX/VD 부문별 OP는 미공시 → 1차 자료(연결 매출 133.9조/OP 57.2조/DS OP 53.7조)만 단정 인용, 부문 세부는 "추정" 라벨.</p>
+        </details>
+        <details class="glass p-4 group">
+          <summary class="flex justify-between items-center cursor-pointer list-none">
+            <span class="font-semibold text-sm">1Q26 글로벌 스마트폰</span>
+            <svg class="chev w-4 h-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <p class="mt-3 text-[13px] text-slate-300 leading-relaxed">Counterpoint -6% (Apple 1위 21%) / Omdia +1% (삼성 1위) / IDC -4.1% → 병기, <b>보수적 Counterpoint 우선 인용</b>.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== 8. 리스크 매트릭스 ===== -->
+    <section id="risk" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">08</span>
+        리스크 매트릭스
+        <span class="text-[11px] text-slate-500 font-normal">발생가능성 × 영향도</span>
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <div class="col-span-12 lg:col-span-8 glass p-5">
+          <div class="h-[460px]"><canvas id="riskMatrix"></canvas></div>
+          <p class="mt-2 text-[11px] text-slate-500 leading-relaxed">버블 위에 마우스를 올리면 상세를 볼 수 있다. 우측 상단(고확률·고영향)이 우선 모니터링 대상.</p>
+        </div>
+        <div class="col-span-12 lg:col-span-4 glass p-5">
+          <div class="text-[11px] text-slate-400 tracking-widest uppercase mb-2">우선 모니터링 지표</div>
+          <ul class="space-y-2 text-sm">
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> DRAMeXchange/TrendForce 월간 ASP 트래커 <span class="lbl lbl-I">I</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> KRX 외국인 일별 순매수 + 외인 지분율 <span class="lbl lbl-M">M</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> HBM4 NVIDIA Rubin 점유 업데이트 <span class="lbl lbl-I">I</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> 삼성 IR 비트그로스 가이던스 <span class="lbl lbl-F">F</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> FED 점도표 + BOK 5/28 회의 <span class="lbl lbl-M">M</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> 컨센 Buy/Hold/Sell 분포 변화 <span class="lbl lbl-S">S</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> CXMT DDR5 출하 보도 <span class="lbl lbl-I">I</span></li>
+            <li class="flex gap-2"><span class="text-cyan-400">▸</span> ₩268,500 / ₩256,610 / ₩219,229 지지선 <span class="lbl lbl-T">T</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 9. 5영역 종합 (Radar) ===== -->
+    <section id="radar" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">09</span>
+        5영역 종합 평가
+      </h2>
+
+      <div class="mt-6 grid grid-cols-12 gap-4">
+        <div class="col-span-12 lg:col-span-6 glass p-5">
+          <div class="h-[380px]"><canvas id="radarChart"></canvas></div>
+        </div>
+        <div class="col-span-12 lg:col-span-6 grid grid-cols-1 gap-3">
+          <div class="glass p-4 flex justify-between items-center">
+            <div>
+              <span class="lbl lbl-F">F</span>
+              <span class="ml-2 font-semibold">펀더멘털</span>
+              <div class="text-[12px] text-slate-400 mt-1">1Q26 OP 57.2조 역대 최대, Base 적정가 ₩220k~₩290k</div>
+            </div>
+            <div class="ff-mono font-bold text-emerald-300">중립~약강세</div>
+          </div>
+          <div class="glass p-4 flex justify-between items-center">
+            <div>
+              <span class="lbl lbl-T">T</span>
+              <span class="ml-2 font-semibold">기술적</span>
+              <div class="text-[12px] text-slate-400 mt-1">1Y +402.74%, 정배열 + ADX 35.58, Stochastic 95.99 과열</div>
+            </div>
+            <div class="ff-mono font-bold text-cyan-300">중립</div>
+          </div>
+          <div class="glass p-4 flex justify-between items-center">
+            <div>
+              <span class="lbl lbl-I">I</span>
+              <span class="ml-2 font-semibold">산업·경쟁</span>
+              <div class="text-[12px] text-slate-400 mt-1">사이클 Upturn 후반, HBM 33% 듀얼 벤더, Apple 폴더블 OLED 독점</div>
+            </div>
+            <div class="ff-mono font-bold text-emerald-300">약강세</div>
+          </div>
+          <div class="glass p-4 flex justify-between items-center">
+            <div>
+              <span class="lbl lbl-M">M</span>
+              <span class="ml-2 font-semibold">거시 환경</span>
+              <div class="text-[12px] text-slate-400 mt-1">USD/KRW ₩1,486 우호 / 한·미 금리차 -100~125bp 부담</div>
+            </div>
+            <div class="ff-mono font-bold text-amber-300">혼재</div>
+          </div>
+          <div class="glass p-4 flex justify-between items-center">
+            <div>
+              <span class="lbl lbl-S">S</span>
+              <span class="ml-2 font-semibold">시장 심리</span>
+              <div class="text-[12px] text-slate-400 mt-1">Buy 97% 쏠림, 외인 단기 차익실현, 자사주 16조 카운터</div>
+            </div>
+            <div class="ff-mono font-bold text-amber-300">단기 약세 / 중기 강세</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 10. 모니터링 타임라인 ===== -->
+    <section id="monitor" class="reveal scroll-mt-32">
+      <h2 class="text-2xl md:text-3xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">10</span>
+        모니터링 타임라인
+      </h2>
+
+      <div class="mt-6 glass p-6">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+              <div class="text-[11px] text-cyan-300 tracking-widest uppercase">단기 (4~8주)</div>
+            </div>
+            <ul class="space-y-3 text-sm">
+              <li><div class="ff-mono text-[11px] text-slate-400">2026-05-28</div><div>BOK 신현송 총재 첫 정책결정회의 <span class="lbl lbl-M">M</span></div></li>
+              <li><div class="ff-mono text-[11px] text-slate-400">2026-05~06</div><div>16조 자사주 소각 집행 <span class="lbl lbl-S">S</span><span class="lbl lbl-F">F</span></div></li>
+              <li><div class="ff-mono text-[11px] text-slate-400">2026-06</div><div>FED 6월 FOMC Dovish/Hawkish 신호 <span class="lbl lbl-M">M</span></div></li>
+              <li><div class="ff-mono text-[11px] text-slate-400">2026-07</div><div>2Q26 잠정실적 (컨센 OP 80~100조) <span class="lbl lbl-F">F</span></div></li>
+              <li><div class="ff-mono text-[11px] text-slate-400">상시</div><div>₩280,000 정착 / ₩291,500 돌파 / ₩268,500 하회 분기점 <span class="lbl lbl-T">T</span></div></li>
+            </ul>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
+              <div class="text-[11px] text-emerald-300 tracking-widest uppercase">중기 (3~6개월)</div>
+            </div>
+            <ul class="space-y-3 text-sm">
+              <li><div>2H26 메모리 ASP 추가 상승 vs 횡보 vs 하락 — 사이클 정점 판별 <span class="lbl lbl-I">I</span><span class="lbl lbl-F">F</span></div></li>
+              <li><div>HBM4 NVIDIA Rubin 향 점유 확정 (30% / 35%+ / 25%) <span class="lbl lbl-I">I</span></div></li>
+              <li><div>삼성 SF2P 2nm 추가 수주 (Qualcomm·AMD) <span class="lbl lbl-I">I</span></div></li>
+              <li><div>CXMT DDR5 출하 본격화 <span class="lbl lbl-I">I</span></div></li>
+              <li><div>외인 지분율 50% 회복 vs 48% 하회 지속 <span class="lbl lbl-M">M</span></div></li>
+              <li><div>2026-11 BOK 회의 + FED 점도표 갱신 <span class="lbl lbl-M">M</span></div></li>
+            </ul>
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-2 h-2 rounded-full bg-violet-400"></div>
+              <div class="text-[11px] text-violet-300 tracking-widest uppercase">장기 (6~12개월+)</div>
+            </div>
+            <ul class="space-y-3 text-sm">
+              <li><div>2027 메모리 캐파 부족 지속 가설 확인 <span class="lbl lbl-F">F</span><span class="lbl lbl-I">I</span></div></li>
+              <li><div>HBM4E 양산 안정화 (삼성 vs SK하이닉스) <span class="lbl lbl-I">I</span></div></li>
+              <li><div>삼성 파운드리 4Q26 흑전 + 2027 OP 확장 <span class="lbl lbl-I">I</span></div></li>
+              <li><div>Apple 폴더블 iPhone 출시 (2H26) <span class="lbl lbl-I">I</span></div></li>
+              <li><div>시안 NAND 2027 라이선스 갱신 여부 <span class="lbl lbl-I">I</span></div></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 11. 면책 ===== -->
+    <section id="disclaimer" class="reveal scroll-mt-32">
+      <h2 class="text-xl md:text-2xl font-bold tracking-tight flex items-baseline gap-3">
+        <span class="text-cyan-300 ff-mono text-xs">11</span>
+        면책 조항
+      </h2>
+      <div class="mt-4 glass p-6 text-[13px] text-slate-300 leading-relaxed space-y-2">
+        <p>본 보고서는 공개된 정보를 바탕으로 작성된 <b>정보 제공 목적의 분석 자료</b>이며, 특정 주식의 매수·매도·보유를 권유하는 투자권유 자료가 아닙니다.</p>
+        <p>본 보고서에 포함된 수치, 전망, 시나리오는 작성 시점(2026-05-12)의 공개 정보 및 분석 가정에 기반하며, 미래의 실제 결과와 다를 수 있습니다.</p>
+        <p>본 보고서에는 컨센서스 및 분석 가정에 기반한 추정치가 포함되며, 사업부문별 OP 분해·외인 일자별 시계열 등 일부 영역은 비공시·실시간 접근 제한으로 정밀도 한계를 가집니다.</p>
+        <p>기술적 분석은 가격·거래량 데이터의 가공에 기반하며 후행적·확률적 성격을 갖습니다. 본 보고서의 시나리오는 조건부 추정이며 단정적 예측이 아닙니다.</p>
+        <p>투자 결정은 본인의 판단과 책임 하에 이루어져야 하며, 핵심 의사결정 시 1차 자료(DART, IR, KRX, BOK ECOS, 산업통상자원부, TrendForce·Counterpoint 등)와 최신 시장 데이터를 별도 확인할 것을 권장합니다.</p>
+        <p class="text-slate-500 text-[12px] pt-2">작성: samsung-equity-team (fundamental · technical · industry · macro · sentiment · integrator-reviewer) — 본 종목과 관련하여 이해관계 없음.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer class="mt-12 border-t border-white/5 py-8 text-center text-[11px] text-slate-500">
+  <p>© 2026 samsung-equity-team · Powered by Claude Code harness · 입력: <code class="ff-mono">_workspace/02_*.md</code></p>
+  <p class="mt-1">시각화: Chart.js · 스타일: TailwindCSS · 애니메이션 배경: Canvas particle network</p>
+</footer>
+
+<script>
+/* =========================================================
+ *  Animated particle network background
+ * ========================================================= */
+(() => {
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+  const COUNT = Math.max(38, Math.min(72, Math.floor((window.innerWidth * window.innerHeight) / 26000)));
+  const MAX_DIST = 150;
+  let pointer = { x: -9999, y: -9999, active: false };
+
+  function resize() {
+    W = canvas.width = window.innerWidth * DPR;
+    H = canvas.height = window.innerHeight * DPR;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+  }
+  function spawn() {
+    particles = [];
+    for (let i = 0; i < COUNT; i++) {
+      particles.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.25 * DPR, vy: (Math.random() - 0.5) * 0.25 * DPR,
+        r: (Math.random() * 1.2 + 0.6) * DPR
+      });
+    }
+  }
+  function tick() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > W) p.vx *= -1;
+      if (p.y < 0 || p.y > H) p.vy *= -1;
+      // gentle pull toward pointer
+      if (pointer.active) {
+        const dx = pointer.x - p.x, dy = pointer.y - p.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < 40000 * DPR * DPR) { p.vx += dx * 0.000003; p.vy += dy * 0.000003; }
+      }
+    }
+    // lines
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d = Math.hypot(dx, dy);
+        const md = MAX_DIST * DPR;
+        if (d < md) {
+          const op = 1 - d / md;
+          ctx.strokeStyle = `rgba(0, 212, 255, ${op * 0.22})`;
+          ctx.lineWidth = 1 * DPR;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    // dots
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(180, 220, 255, 0.75)';
+      ctx.fill();
+    }
+    requestAnimationFrame(tick);
+  }
+  window.addEventListener('resize', () => { resize(); spawn(); });
+  window.addEventListener('mousemove', (e) => { pointer.x = e.clientX * DPR; pointer.y = e.clientY * DPR; pointer.active = true; });
+  window.addEventListener('mouseleave', () => { pointer.active = false; });
+  resize(); spawn(); tick();
+})();
+
+/* =========================================================
+ *  Scroll reveal + TOC active state
+ * ========================================================= */
+(() => {
+  const sections = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }
+  }, { threshold: 0.08 });
+  sections.forEach((s) => io.observe(s));
+
+  const links = document.querySelectorAll('.toc a');
+  const tocIo = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      const id = e.target.id;
+      const link = document.querySelector(`.toc a[data-anchor="${id}"]`);
+      if (!link) continue;
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    }
+  }, { rootMargin: '-30% 0px -55% 0px' });
+  document.querySelectorAll('section[id]').forEach((s) => tocIo.observe(s));
+})();
+
+/* =========================================================
+ *  Counter animation
+ * ========================================================= */
+(() => {
+  const counters = document.querySelectorAll('.counter');
+  const animate = (el) => {
+    const target = parseFloat(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const isInt = Number.isInteger(target) && target >= 1000;
+    let start = 0;
+    const dur = 1400;
+    const t0 = performance.now();
+    const fmt = (v) => {
+      if (suffix === '%') return v.toFixed(2) + '%';
+      if (suffix === '조') return v.toFixed(1) + '조';
+      if (isInt) return '₩' + Math.round(v).toLocaleString();
+      return v.toFixed(2);
+    };
+    const step = (t) => {
+      const p = Math.min(1, (t - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(start + (target - start) * e);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { animate(e.target); io.unobserve(e.target); }
+  }, { threshold: 0.4 });
+  counters.forEach((c) => io.observe(c));
+})();
+
+/* =========================================================
+ *  Chart.js global theme
+ * ========================================================= */
+Chart.defaults.color = '#b6bcc8';
+Chart.defaults.font.family = "'Pretendard', -apple-system, 'Apple SD Gothic Neo', system-ui, sans-serif";
+Chart.defaults.font.size = 11;
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.plugins.tooltip = {
+  ...Chart.defaults.plugins.tooltip,
+  backgroundColor: 'rgba(5,7,13,0.95)',
+  borderColor: 'rgba(0,212,255,0.35)',
+  borderWidth: 1,
+  titleColor: '#e8eaed',
+  bodyColor: '#b6bcc8',
+  padding: 12,
+  cornerRadius: 8,
+  displayColors: true,
+  boxPadding: 4
+};
+Chart.defaults.animation = { duration: 1100, easing: 'easeOutCubic' };
+
+const grid = { color: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.08)' };
+
+/* =========================================================
+ *  Range chart (Bullish/Base/Bearish/Consensus)
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('rangeChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Bullish', 'Consensus', 'Base', 'Bearish'],
+      datasets: [{
+        label: 'Range',
+        data: [[320000, 410000], [312800, 323000], [220000, 290000], [140000, 200000]],
+        backgroundColor: ['rgba(52,211,153,0.6)', 'rgba(167,139,250,0.6)', 'rgba(0,212,255,0.6)', 'rgba(255,82,82,0.55)'],
+        borderColor: ['#34d399', '#a78bfa', '#00d4ff', '#ff5252'],
+        borderWidth: 1.5,
+        borderSkipped: false,
+        borderRadius: 6
+      }, {
+        // current price as a horizontal marker via point dataset
+        label: '현재가 ₩275,500',
+        type: 'scatter',
+        data: [{ x: 275500, y: 'Bullish' }, { x: 275500, y: 'Consensus' }, { x: 275500, y: 'Base' }, { x: 275500, y: 'Bearish' }],
+        pointRadius: 0,
+        showLine: false
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { min: 100000, max: 520000, grid, ticks: { callback: (v) => '₩' + (v/1000).toFixed(0) + 'k' } },
+        y: { grid: { display: false }, ticks: { font: { size: 12, weight: '600' } } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              if (ctx.datasetIndex === 0) {
+                const [lo, hi] = ctx.raw;
+                return ` 적정가 ₩${lo.toLocaleString()} ~ ₩${hi.toLocaleString()}`;
+              }
+              return '';
+            }
+          }
+        },
+        annotation: false
+      }
+    },
+    plugins: [{
+      id: 'currentPriceLine',
+      afterDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        const x = scales.x.getPixelForValue(275500);
+        ctx.save();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5,4]);
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = '600 11px ui-monospace, monospace';
+        ctx.textAlign = 'center';
+        ctx.fillText('현재가 ₩275,500', x, chartArea.top - 6);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+ *  Weight donut
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('weightChart');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Base 55%', 'Bullish 25%', 'Bearish 20%'],
+      datasets: [{
+        data: [55, 25, 20],
+        backgroundColor: ['rgba(0,212,255,0.75)', 'rgba(52,211,153,0.75)', 'rgba(255,82,82,0.75)'],
+        borderColor: ['#00d4ff', '#34d399', '#ff5252'],
+        borderWidth: 1.5,
+        hoverOffset: 12
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '64%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 12, usePointStyle: true, pointStyle: 'circle' } },
+        tooltip: { callbacks: { label: (c) => ' ' + c.label } }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Quarterly trend
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('quarterlyChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['2024 4Q', '2025 1Q', '2025 4Q', '2026 1Q'],
+      datasets: [
+        { label: '매출', data: [75.8, 79.7, 93.8, 133.9], backgroundColor: 'rgba(167,139,250,0.55)', borderColor: '#a78bfa', borderWidth: 1.5, borderRadius: 4, yAxisID: 'y' },
+        { label: '영업이익', data: [6.5, 6.7, 20.1, 57.2], backgroundColor: 'rgba(0,212,255,0.7)', borderColor: '#00d4ff', borderWidth: 1.5, borderRadius: 4, yAxisID: 'y' },
+        { label: 'OP 마진(%)', data: [8.6, 8.4, 21.4, 42.7], type: 'line', borderColor: '#34d399', backgroundColor: 'rgba(52,211,153,0.15)', tension: 0.35, yAxisID: 'y1', pointBackgroundColor: '#34d399', pointRadius: 4 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      scales: {
+        x: { grid, ticks: { font: { weight: '600' } } },
+        y: { position: 'left', grid, ticks: { callback: (v) => v + '조' } },
+        y1: { position: 'right', grid: { display: false }, ticks: { callback: (v) => v + '%', color: '#34d399' }, min: 0, max: 60 }
+      },
+      plugins: {
+        legend: { position: 'top', align: 'end', labels: { padding: 14, usePointStyle: true, pointStyle: 'circle' } },
+        tooltip: {
+          callbacks: {
+            label: (c) => {
+              if (c.dataset.label === 'OP 마진(%)') return ` OP 마진: ${c.parsed.y}%`;
+              return ` ${c.dataset.label}: ${c.parsed.y}조`;
+            }
+          }
+        }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Segment donut
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('segmentChart');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['DS (반도체)', 'DX (MX·VD·CE)', 'SDC (디스플레이)', 'Harman'],
+      datasets: [{
+        data: [81.7, 44.0, 6.7, 3.8],
+        backgroundColor: ['rgba(0,212,255,0.78)', 'rgba(167,139,250,0.72)', 'rgba(244,114,182,0.7)', 'rgba(245,158,11,0.7)'],
+        borderColor: ['#00d4ff', '#a78bfa', '#f472b6', '#f59e0b'],
+        borderWidth: 1.5,
+        hoverOffset: 10
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '60%',
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ` ${c.label}: ${c.parsed}조 원` } }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+ *  PER comparison
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('perChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['삼성전자', 'SK하이닉스', 'Micron', 'TSMC'],
+      datasets: [{
+        label: 'PER (2026E)',
+        data: [6.5, 6.59, 13.3, 23.5],
+        backgroundColor: ['rgba(0,212,255,0.7)', 'rgba(167,139,250,0.6)', 'rgba(245,158,11,0.6)', 'rgba(52,211,153,0.6)'],
+        borderColor: ['#00d4ff', '#a78bfa', '#f59e0b', '#34d399'],
+        borderWidth: 1.5,
+        borderRadius: 6,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { grid: { display: false } }, y: { grid, ticks: { callback: (v) => v + 'x' } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` PER ${c.parsed.y}배` } } }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Momentum gauges (semi-donut)
+ * ========================================================= */
+(() => {
+  document.querySelectorAll('canvas[data-gauge]').forEach((c) => {
+    const val = parseFloat(c.dataset.value);
+    const max = parseFloat(c.dataset.max);
+    const warn = parseFloat(c.dataset.warn);
+    const v = Math.max(0, Math.min(val, max));
+    const color = val >= warn ? '#ff5252' : val > max * 0.4 ? '#34d399' : '#22d3ee';
+    new Chart(c, {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [v, max - v],
+          backgroundColor: [color, 'rgba(255,255,255,0.06)'],
+          borderWidth: 0,
+          circumference: 180,
+          rotation: 270,
+          cutout: '70%'
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } }
+      }
+    });
+  });
+})();
+
+/* =========================================================
+ *  S/R map (DOM-rendered horizontal levels)
+ * ========================================================= */
+(() => {
+  const map = document.getElementById('srMap');
+  if (!map) return;
+  const lo = 200000, hi = 330000;
+  const range = hi - lo;
+  const levels = [
+    { p: 325000, lbl: '확장 저항 ₩315k~₩325k', tip: '피보 1.272~1.382', kind: 'res' },
+    { p: 300000, lbl: '심리 저항 ₩300,000 (30만전자)', tip: '심리적 저항선', kind: 'res' },
+    { p: 291500, lbl: '52주 신고가 ₩291,500', tip: '돌파 시 Bullish 트리거', kind: 'res' },
+    { p: 285500, lbl: 'R2 ₩285,500', tip: '5/11 종가', kind: 'res' },
+    { p: 280500, lbl: 'R1 ₩280,500', tip: '즉시 저항', kind: 'res' },
+    { p: 275500, lbl: '현재가 ₩275,500', tip: 'KRX 2026-05-12 종가', kind: 'cur' },
+    { p: 272500, lbl: '즉시 지지 ₩272k~₩276k', tip: 'MA20 · S2 피벗', kind: 'sup' },
+    { p: 256610, lbl: 'MA50 ₩256,610', tip: '중기 지지', kind: 'sup' },
+    { p: 244340, lbl: 'MA100 ₩238k~₩244k', tip: '강 지지', kind: 'sup' },
+    { p: 219229, lbl: 'MA200 ₩219,229', tip: '추세 무효화 라인', kind: 'sup' }
+  ];
+  levels.forEach((lv) => {
+    const top = ((hi - lv.p) / range) * 100;
+    const line = document.createElement('div');
+    const cls = lv.kind === 'cur' ? 'border-cyan-400 bg-cyan-400/12' : lv.kind === 'res' ? 'border-emerald-400/40' : 'border-red-400/30';
+    line.className = `absolute left-3 right-3 border-t ${cls} group cursor-pointer transition-all duration-200`;
+    line.style.top = top + '%';
+    if (lv.kind === 'cur') line.style.borderTopWidth = '2px';
+    line.innerHTML = `
+      <div class="absolute -top-2.5 left-0 ff-mono text-[10px] ${lv.kind === 'cur' ? 'text-cyan-300 font-bold' : lv.kind === 'res' ? 'text-emerald-300' : 'text-red-300'}">${lv.lbl}</div>
+      <div class="absolute -top-2.5 right-0 hidden group-hover:block text-[10px] text-slate-300 bg-slate-900/90 px-2 py-0.5 rounded border border-white/10">${lv.tip}</div>
+    `;
+    map.appendChild(line);
+  });
+
+  // current price label dot
+  const dot = document.createElement('div');
+  dot.className = 'pulse-dot absolute w-3 h-3 rounded-full bg-cyan-400 left-2 -translate-x-1/2';
+  dot.style.top = `calc(${((hi - 275500) / range) * 100}% - 6px)`;
+  map.appendChild(dot);
+})();
+
+/* =========================================================
+ *  HBM share (NVIDIA Rubin 향)
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('hbmChart');
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['SK하이닉스 ~70%', '삼성전자 ~30% (협상)', '마이크론 잔여'],
+      datasets: [{
+        data: [70, 30, 0],
+        backgroundColor: ['rgba(167,139,250,0.6)', 'rgba(0,212,255,0.85)', 'rgba(245,158,11,0.5)'],
+        borderColor: ['#a78bfa', '#00d4ff', '#f59e0b'],
+        borderWidth: 1.5,
+        hoverOffset: 10
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      cutout: '58%',
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 10, usePointStyle: true, pointStyle: 'circle' } },
+        tooltip: { callbacks: { label: (c) => ` ${c.label}` } }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+ *  CapEx chart
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('capexChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Amazon (AWS)', 'Microsoft', 'Alphabet', 'Meta'],
+      datasets: [{
+        label: '2026E CapEx ($B)',
+        data: [200, 190, 190, 135],
+        backgroundColor: ['rgba(245,158,11,0.7)', 'rgba(0,212,255,0.7)', 'rgba(52,211,153,0.7)', 'rgba(244,114,182,0.7)'],
+        borderColor: ['#f59e0b', '#00d4ff', '#34d399', '#f472b6'],
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { grid: { display: false } }, y: { grid, ticks: { callback: (v) => '$' + v + 'B' } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` $${c.parsed.y}B (2026E)` } } }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Foreign ownership line
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('foreignChart');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['2025-12', '2026-01', '2026-02', '2026-03', '2026-04', '2026-05-08'],
+      datasets: [{
+        label: '외인 지분율 (%)',
+        data: [50.42, 50.31, 50.18, 49.95, 49.41, 49.21],
+        borderColor: '#00d4ff',
+        backgroundColor: (ctx) => {
+          const c = ctx.chart.ctx;
+          const g = c.createLinearGradient(0, 0, 0, 280);
+          g.addColorStop(0, 'rgba(0,212,255,0.35)');
+          g.addColorStop(1, 'rgba(0,212,255,0)');
+          return g;
+        },
+        fill: true,
+        tension: 0.4,
+        pointBackgroundColor: '#00d4ff',
+        pointRadius: 4,
+        pointHoverRadius: 6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { grid }, y: { grid, ticks: { callback: (v) => v + '%' }, suggestedMin: 49, suggestedMax: 50.5 } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` 외인 ${c.parsed.y}%` } } }
+    },
+    plugins: [{
+      id: 'fiftyLine',
+      afterDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        const y = scales.y.getPixelForValue(50);
+        ctx.save();
+        ctx.strokeStyle = 'rgba(245,158,11,0.7)';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5,4]);
+        ctx.beginPath();
+        ctx.moveTo(chartArea.left, y);
+        ctx.lineTo(chartArea.right, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#f59e0b';
+        ctx.font = '600 10px ui-monospace, monospace';
+        ctx.fillText('50% 선', chartArea.right - 40, y - 4);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+ *  Target price by broker (horizontal)
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('targetChart');
+  const data = [
+    { broker: 'SK증권', target: 500000 },
+    { broker: 'CLSA/미래에셋', target: 400000 },
+    { broker: 'KB증권', target: 360000 },
+    { broker: '키움증권', target: 330000 },
+    { broker: 'FnGuide 평균', target: 323000 },
+    { broker: 'TradingView 42인 평균', target: 321159 },
+    { broker: 'Investing 36인 평균', target: 315742 },
+    { broker: 'KR 6M 평균 (KB Think)', target: 312800 },
+    { broker: 'iM증권', target: 280000 },
+    { broker: '상상인증권', target: 250000 }
+  ];
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.broker),
+      datasets: [{
+        label: '목표주가',
+        data: data.map(d => d.target),
+        backgroundColor: data.map((d) => {
+          if (d.target >= 400000) return 'rgba(52,211,153,0.7)';
+          if (d.target >= 320000) return 'rgba(0,212,255,0.7)';
+          if (d.target >= 300000) return 'rgba(167,139,250,0.65)';
+          return 'rgba(245,158,11,0.6)';
+        }),
+        borderColor: data.map((d) => {
+          if (d.target >= 400000) return '#34d399';
+          if (d.target >= 320000) return '#00d4ff';
+          if (d.target >= 300000) return '#a78bfa';
+          return '#f59e0b';
+        }),
+        borderWidth: 1.5,
+        borderRadius: 5
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: { grid, ticks: { callback: (v) => '₩' + (v/1000).toFixed(0) + 'k' } },
+        y: { grid: { display: false } }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => ` ₩${c.parsed.x.toLocaleString()}` } }
+      }
+    },
+    plugins: [{
+      id: 'currentMark',
+      afterDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        const x = scales.x.getPixelForValue(275500);
+        ctx.save();
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4,4]);
+        ctx.beginPath();
+        ctx.moveTo(x, chartArea.top);
+        ctx.lineTo(x, chartArea.bottom);
+        ctx.stroke();
+        ctx.fillStyle = '#22d3ee';
+        ctx.font = '600 10px ui-monospace, monospace';
+        ctx.fillText('현재가 ₩275,500', x + 4, chartArea.top + 12);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+ *  Opinion bar
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('opinionChart');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Buy / Strong Buy', 'Hold', 'Sell / Underweight'],
+      datasets: [{
+        data: [36, 1, 0],
+        backgroundColor: ['rgba(52,211,153,0.7)', 'rgba(245,158,11,0.7)', 'rgba(255,82,82,0.7)'],
+        borderColor: ['#34d399', '#f59e0b', '#ff5252'],
+        borderWidth: 1.5,
+        borderRadius: 6
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      scales: { x: { grid, ticks: { stepSize: 5 } }, y: { grid: { display: false } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` ${c.parsed.x}명` } } }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Risk matrix (bubble)
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('riskMatrix');
+  const risks = [
+    { x: 2, y: 4, r: 22, label: '메모리 사이클 정점 도과', area: 'F·I', color: '#ff5252' },
+    { x: 2.5, y: 3.5, r: 18, label: '외인 차익실현 지속', area: 'M·S', color: '#f472b6' },
+    { x: 2, y: 3.5, r: 16, label: 'HBM4 NVIDIA 30→25% 후퇴', area: 'I', color: '#f59e0b' },
+    { x: 2, y: 2, r: 12, label: 'MX 마진 디레이팅', area: 'I·S', color: '#f59e0b' },
+    { x: 2, y: 2.5, r: 14, label: 'CXMT DDR5 본격 진입', area: 'I', color: '#f59e0b' },
+    { x: 2, y: 2, r: 12, label: '한·미 금리차 지속', area: 'M', color: '#34d399' },
+    { x: 1.5, y: 2, r: 10, label: 'USD/KRW ₩1,500 돌파', area: 'M', color: '#34d399' },
+    { x: 1, y: 3.5, r: 11, label: '시안 NAND 라이선스', area: 'I', color: '#f59e0b' },
+    { x: 1, y: 4, r: 13, label: '컨센 쏠림 충격', area: 'S', color: '#f472b6' },
+    { x: 1, y: 4, r: 12, label: '대만 해협 긴장', area: 'I·M', color: '#a78bfa' },
+    { x: 2, y: 1.5, r: 9, label: '2nm 흑전 지연', area: 'I', color: '#f59e0b' },
+    { x: 1, y: 4, r: 11, label: '기술적 추세 무효화', area: 'T', color: '#22d3ee' }
+  ];
+  new Chart(ctx, {
+    type: 'bubble',
+    data: {
+      datasets: risks.map((r) => ({
+        label: r.label,
+        data: [{ x: r.x, y: r.y, r: r.r, _area: r.area, _label: r.label }],
+        backgroundColor: r.color + '90',
+        borderColor: r.color,
+        borderWidth: 1.5
+      }))
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: { display: true, text: '발생 가능성', color: '#9aa0a6', font: { size: 11 } },
+          min: 0.4, max: 3.2,
+          ticks: {
+            stepSize: 1,
+            callback: (v) => ({ 1: '낮음', 2: '중간', 3: '높음' }[v] || '')
+          },
+          grid
+        },
+        y: {
+          title: { display: true, text: '영향도', color: '#9aa0a6', font: { size: 11 } },
+          min: 0.4, max: 4.6,
+          ticks: {
+            stepSize: 1,
+            callback: (v) => ({ 1: '낮음', 2: '중간', 3: '중상', 4: '매우 높음' }[v] || '')
+          },
+          grid
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            title: (items) => items[0].raw._label,
+            label: (c) => ` 영역: ${c.raw._area} · 점수 ${c.raw.x * c.raw.y}/16`
+          }
+        }
+      }
+    },
+    plugins: [{
+      id: 'quadrantBg',
+      beforeDraw(chart) {
+        const { ctx, chartArea, scales } = chart;
+        const x2 = scales.x.getPixelForValue(2);
+        const y2 = scales.y.getPixelForValue(2.5);
+        ctx.save();
+        // top-right quadrant — danger zone tint
+        ctx.fillStyle = 'rgba(255,82,82,0.04)';
+        ctx.fillRect(x2, chartArea.top, chartArea.right - x2, y2 - chartArea.top);
+        ctx.restore();
+      }
+    }]
+  });
+})();
+
+/* =========================================================
+ *  Radar
+ * ========================================================= */
+(() => {
+  const ctx = document.getElementById('radarChart');
+  new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['펀더멘털 F', '기술적 T', '산업 I', '거시 M', '심리 S'],
+      datasets: [
+        {
+          label: '중기 (6~12개월)',
+          data: [4, 3, 4, 3, 4],
+          backgroundColor: 'rgba(52,211,153,0.18)',
+          borderColor: '#34d399',
+          pointBackgroundColor: '#34d399',
+          borderWidth: 2
+        },
+        {
+          label: '단기 (4~8주)',
+          data: [3, 2, 3, 2, 1.5],
+          backgroundColor: 'rgba(255,82,82,0.15)',
+          borderColor: '#ff5252',
+          pointBackgroundColor: '#ff5252',
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(255,255,255,0.08)' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          pointLabels: { color: '#e8eaed', font: { weight: '600', size: 12 } },
+          ticks: {
+            backdropColor: 'transparent',
+            color: '#7e8597',
+            stepSize: 1,
+            callback: (v) => ({ 1: '약세', 2: '중립', 3: '약강세', 4: '강세' }[v] || '')
+          },
+          suggestedMin: 0, suggestedMax: 4.5
+        }
+      },
+      plugins: {
+        legend: { position: 'bottom', labels: { padding: 14, usePointStyle: true, pointStyle: 'circle' } }
+      }
+    }
+  });
+})();
+
+/* =========================================================
+ *  Scenario tabs
+ * ========================================================= */
+(() => {
+  const tabs = document.querySelectorAll('.scn-tab');
+  const panels = document.querySelectorAll('.scn-panel');
+  tabs.forEach((t) => {
+    t.addEventListener('click', () => {
+      const s = t.dataset.scn;
+      tabs.forEach((x) => x.classList.toggle('active', x.dataset.scn === s));
+      panels.forEach((p) => p.classList.toggle('active', p.dataset.scn === s));
+    });
+  });
+})();
+
+/* =========================================================
+ *  Label highlight on hover
+ * ========================================================= */
+(() => {
+  document.body.addEventListener('mouseover', (e) => {
+    const lbl = e.target.closest('.lbl');
+    if (!lbl) return;
+    const kind = ['F','T','I','M','S'].find((k) => lbl.classList.contains('lbl-' + k));
+    if (!kind) return;
+    document.querySelectorAll('.lbl-' + kind).forEach((el) => el.style.boxShadow = '0 0 0 2px currentColor, 0 0 18px currentColor');
+  });
+  document.body.addEventListener('mouseout', (e) => {
+    const lbl = e.target.closest('.lbl');
+    if (!lbl) return;
+    document.querySelectorAll('.lbl').forEach((el) => el.style.boxShadow = '');
+  });
+})();
+
+/* Smooth scroll on nav clicks (TOC + topnav) */
+document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  a.addEventListener('click', (e) => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    window.scrollTo({ top: el.offsetTop - 110, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
