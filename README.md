@@ -11,7 +11,7 @@
 | 파일 | 설명 |
 |------|------|
 | [`삼성전자_주식분석_보고서_20260512.md`](./삼성전자_주식분석_보고서_20260512.md) | 5개 영역을 통합한 최종 투자 보고서 (2026-05-12 기준) |
-| [`index-samsung.html`](./index-samsung.html) | 보고서 시각화 페이지 (GitHub Pages 서빙 가능) |
+| [`index.html`](./index.html) | 보고서 시각화 페이지 (GitHub Pages 서빙 가능) |
 | [`_workspace/`](./_workspace) | 영역별 분석 원본 + QA 체크리스트 (감사 추적용) |
 
 ### `_workspace/` 구조
@@ -101,7 +101,7 @@ Claude Code 세션에서 다음과 같이 요청하면 `samsung-stock-orchestrat
 ├── README.md
 ├── CLAUDE.md                       # 하네스 사용 트리거 정의
 ├── 삼성전자_주식분석_보고서_*.md   # 출력 보고서
-├── index-samsung.html              # 보고서 시각화
+├── index.html              # 보고서 시각화
 ├── _workspace/                     # 영역별 분석 원본
 └── .claude/
     ├── agents/                     # 6개 전문가 에이전트 정의
